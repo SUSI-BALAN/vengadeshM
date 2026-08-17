@@ -5,7 +5,7 @@ export const hero = {
   // glitch-light text (apostrophe is literal here)
   name: "HELLO, I'M Vengadash",
   bio:
-    'HALO! SAYA SHOFI ALFATIH, BIASA DIPANGGIL FATIH, SEORANG VISUAL CREATOR YANG BARU BANGET NYEMPLUNG KE DUNIA DESAIN SEKITAR 4 BULAN INI. WALAUPUN MASIH ITUNGANNYA “PENDATANG BARU”, SAYA LAGI HAUS BANGET BUAT EKSPLORASI BERBAGAI MACAM GAYA VISUAL BUAT SAYA, BARU 4 BULAN ITU BUKAN HALANGAN, TAPI JUSTRU AWAL DARI PERJALANAN KREATIF YANG SERU. SAYA SELALU TERBUKA BUAT BELAJAR HAL BARU, DAPET FEEDBACK, ATAU DIAJAK KOLABORASI BARENG.',
+    'HALO! SAYA vengadesh, BIASA DIPANGGIL FATIH, SEORANG VISUAL CREATOR YANG BARU BANGET NYEMPLUNG KE DUNIA DESAIN SEKITAR 4 BULAN INI. WALAUPUN MASIH ITUNGANNYA “PENDATANG BARU”, SAYA LAGI HAUS BANGET BUAT EKSPLORASI BERBAGAI MACAM GAYA VISUAL BUAT SAYA, BARU 4 BULAN ITU BUKAN HALANGAN, TAPI JUSTRU AWAL DARI PERJALANAN KREATIF YANG SERU. SAYA SELALU TERBUKA BUAT BELAJAR HAL BARU, DAPET FEEDBACK, ATAU DIAJAK KOLABORASI BARENG.',
 };
 
 export const projects = [
@@ -74,7 +74,7 @@ export const education = [
 
 export const contact = {
   email: 'fatih@example.com',
-  site: 'https://www.shofialfath.com',
+  site: 'https://www.vengadesh.com',
   phone: '+62 812 3456 7890',
   location: 'Jakarta, Indonesia',
   socials: [
@@ -84,13 +84,3 @@ export const contact = {
     { label: 'DR', href: 'https://dribbble.com/', aria: 'Dribbble' },
   ],
 };
-
-// Background presets for the scroll-driven canvas.
-export const backgrounds = [
-  { id: 'frames', label: 'Frame' },
-  { id: 'video', label: 'Video', src: 'video/464168.mp4' },
-  { id: 'image', label: 'Still', src: 'frames/ezgif-frame-150.jpg' },
-];
-
-export const TOTAL_FRAMES = 300;
-export const STILL_FRAME = 150; // used by the "Still" preset

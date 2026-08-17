@@ -48,30 +48,6 @@
     pointer-events: none;
   }
 
-  /* Background preset switcher (bottom-right) */
-  .bg-switch {
-    position: fixed; right: 18px; bottom: 18px; z-index: 55;
-    display: flex; gap: 6px; padding: 6px;
-    border-radius: 999px;
-    background: rgba(15,15,18,0.45);
-    border: 1px solid rgba(255,255,255,0.14);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-  }
-  .bg-btn {
-    appearance: none; border: 0; cursor: pointer;
-    padding: 8px 14px; border-radius: 999px;
-    font: inherit; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
-    color: #ededed; background: transparent;
-    transition: background 0.2s ease, color 0.2s ease;
-  }
-  .bg-btn:hover { background: rgba(255,255,255,0.1); }
-  .bg-btn.active { background: #ff2a2a; color: #fff; }
-  @media (max-width: 760px) {
-    .bg-switch { right: 12px; bottom: 12px; padding: 4px; }
-    .bg-btn { padding: 7px 11px; font-size: 10px; letter-spacing: 0.08em; }
-  }
-
   /* ---------- Top bar (sticky) ---------- */
   .topbar {
     position: fixed;

@@ -4,8 +4,9 @@
 // double-init hacks, and makes the engine independently testable.
 //
 // Faithful port of the original inline <script> (frame-sequence scrub,
-// Ken Burns zoom, Frame/Video/Still presets, throttled preload, idle + tab
-// hidden pause, reduced-motion static render).
+// Ken Burns zoom, throttled preload, idle + tab hidden pause,
+// reduced-motion static render). Only the scroll-driven frame preset is
+// retained; the old Frame/Video/Still switcher was removed.
 
 const TOTAL = 300;
 const ZOOM_MAX = 0.15; // max zoom reached at page bottom (1.15x)
@@ -24,7 +25,6 @@ export default class BackgroundEngine {
     this.ctx = canvas.getContext('2d');
     this.reducedMotion = reducedMotion;
 
-    this.mode = 'frames'; // 'frames' | 'video' | 'image'
     this.frames = new Array(TOTAL);
     this.loaded = 0;
     this.errors = 0;
@@ -36,11 +36,6 @@ export default class BackgroundEngine {
     this.lastDrawn = -1;
     this.running = false;
     this.lastScrollTime = Date.now();
-
-    this.bgVideo = null;
-    this.bgVideoReady = false;
-    this.stillImg = null;
-    this.stillReady = false;
 
     this.loader = null;
     this.progressBar = null;
@@ -68,7 +63,6 @@ export default class BackgroundEngine {
     window.addEventListener('scroll', this._onScroll, { passive: true });
     document.addEventListener('visibilitychange', this._onVisibility);
     this.preload();
-    this.preloadPresets();
     this._failTimer = setTimeout(() => this.hideLoader(), FAILSAFE_MS);
     this.wake();
   }
@@ -80,11 +74,6 @@ export default class BackgroundEngine {
     window.removeEventListener('resize', this._onResize);
     window.removeEventListener('scroll', this._onScroll);
     document.removeEventListener('visibilitychange', this._onVisibility);
-    if (this.bgVideo) {
-      try { this.bgVideo.pause(); } catch (e) { /* noop */ }
-      this.bgVideo.src = '';
-      this.bgVideo = null;
-    }
   }
 
   showLoader() { if (this.loader) this.loader.classList.remove('hidden'); }
@@ -120,35 +109,6 @@ export default class BackgroundEngine {
       };
       this.frames[idx] = img;
     }
-  }
-
-  preloadPresets() {
-    this.bgVideo = document.createElement('video');
-    this.bgVideo.muted = true;
-    this.bgVideo.playsInline = true;
-    this.bgVideo.preload = 'auto';
-    this.bgVideo.src = base() + 'video/464168.mp4';
-    this.bgVideo.addEventListener('loadeddata', () => {
-      this.bgVideoReady = true;
-      this.hideLoader();
-      this.wake();
-    });
-
-    this.stillImg = new Image();
-    this.stillImg.decoding = 'async';
-    this.stillImg.src = base() + 'frames/ezgif-frame-150.jpg';
-    this.stillImg.onload = () => {
-      this.stillReady = true;
-      this.hideLoader();
-    };
-  }
-
-  setMode(id) {
-    this.mode = id;
-    this.lastDrawn = -1;
-    this.currentZoom = 1; // re-settle the zoom from the top
-    if (id === 'video' && !this.bgVideoReady) this.showLoader();
-    this.wake();
   }
 
   draw(img, zoom) {
@@ -200,40 +160,23 @@ export default class BackgroundEngine {
     this.currentZoom += (zoomTarget - this.currentZoom) * 0.12;
     if (Math.abs(zoomTarget - this.currentZoom) < 0.001) this.currentZoom = zoomTarget;
 
-    let settled = true;
-
-    if (this.mode === 'frames') {
-      const target = p * (TOTAL - 1);
-      this.current += (target - this.current) * 0.12;
-      if (Math.abs(target - this.current) < 0.01) this.current = target;
-      let idx = Math.round(this.current);
-      // neighbor-fallback to the closest already-loaded frame
-      if (!(this.frames[idx] && this.frames[idx].complete && this.frames[idx].naturalWidth)) {
-        for (let off = 1; off < TOTAL; off++) {
-          const a = idx - off;
-          const b = idx + off;
-          if (a >= 0 && this.frames[a] && this.frames[a].complete && this.frames[a].naturalWidth) { idx = a; break; }
-          if (b < TOTAL && this.frames[b] && this.frames[b].complete && this.frames[b].naturalWidth) { idx = b; break; }
-        }
-      }
-      this.draw(this.frames[idx], this.currentZoom);
-      this.lastDrawn = idx;
-      settled = Math.abs(target - this.current) < 0.01;
-    } else if (this.mode === 'image') {
-      if (this.stillReady) this.draw(this.stillImg, this.currentZoom);
-    } else if (this.mode === 'video') {
-      if (this.bgVideoReady && this.bgVideo) {
-        const dur = this.bgVideo.duration || 1;
-        try { this.bgVideo.currentTime = p * dur; } catch (e) { /* noop */ }
-        this.draw(this.bgVideo, this.currentZoom);
-      } else {
-        // not loaded yet — keep showing the frame preset underneath
-        const vidx = Math.round(p * (TOTAL - 1));
-        if (this.frames[vidx] && this.frames[vidx].complete && this.frames[vidx].naturalWidth) {
-          this.draw(this.frames[vidx], this.currentZoom);
-        }
+    // Eased scrub toward the target frame for the current scroll position.
+    const target = p * (TOTAL - 1);
+    this.current += (target - this.current) * 0.12;
+    if (Math.abs(target - this.current) < 0.01) this.current = target;
+    let idx = Math.round(this.current);
+    // neighbor-fallback to the closest already-loaded frame
+    if (!(this.frames[idx] && this.frames[idx].complete && this.frames[idx].naturalWidth)) {
+      for (let off = 1; off < TOTAL; off++) {
+        const a = idx - off;
+        const b = idx + off;
+        if (a >= 0 && this.frames[a] && this.frames[a].complete && this.frames[a].naturalWidth) { idx = a; break; }
+        if (b < TOTAL && this.frames[b] && this.frames[b].complete && this.frames[b].naturalWidth) { idx = b; break; }
       }
     }
+    this.draw(this.frames[idx], this.currentZoom);
+    this.lastDrawn = idx;
+    const settled = Math.abs(target - this.current) < 0.01;
 
     if (this.progressBar) this.progressBar.style.transform = 'scaleX(' + p + ')';
 

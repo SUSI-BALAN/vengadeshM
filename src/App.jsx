@@ -14,7 +14,6 @@ import { useScrollReveal } from './hooks/useScrollReveal';
 
 export default function App() {
   const reducedMotion = useReducedMotion();
-  const [activeBg, setActiveBg] = useState('frames');
   const [openProject, setOpenProject] = useState(null);
 
   // Sets up scroll-reveal on the content (runs once after first paint).
@@ -22,7 +21,7 @@ export default function App() {
 
   return (
     <>
-      <Background reducedMotion={reducedMotion} activeBg={activeBg} onSwitch={setActiveBg} />
+      <Background reducedMotion={reducedMotion} />
       <Loader />
       <div id="progress" aria-hidden="true" />
       <Topbar />

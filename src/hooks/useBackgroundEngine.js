@@ -3,7 +3,7 @@ import BackgroundEngine from '../engine/BackgroundEngine';
 
 // Thin React wrapper around the imperative BackgroundEngine.
 // React only owns the lifecycle: create + start on mount, destroy on unmount.
-// Because destroy() fully tears down listeners / rAF / video, React 18
+// Because destroy() fully tears down listeners / rAF, React 18
 // StrictMode's mount→unmount→mount is safe (no didInit hack, no double load).
 export function useBackgroundEngine(canvasRef, reducedMotion) {
   const engineRef = useRef(null);
@@ -18,9 +18,4 @@ export function useBackgroundEngine(canvasRef, reducedMotion) {
       engineRef.current = null;
     };
   }, [canvasRef, reducedMotion]);
-
-  // Expose a stable setMode for the background switcher pills.
-  return (id) => {
-    if (engineRef.current) engineRef.current.setMode(id);
-  };
 }
