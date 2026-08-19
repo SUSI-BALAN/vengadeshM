@@ -3,9 +3,9 @@
 
 export const hero = {
   // glitch-light text (apostrophe is literal here)
-  name: "HELLO, I'M Vengadash",
+  name: "HELLO, I'M VenKadash",
   bio:
-    'HALO! SAYA vengadesh, BIASA DIPANGGIL FATIH, SEORANG VISUAL CREATOR YANG BARU BANGET NYEMPLUNG KE DUNIA DESAIN SEKITAR 4 BULAN INI. WALAUPUN MASIH ITUNGANNYA “PENDATANG BARU”, SAYA LAGI HAUS BANGET BUAT EKSPLORASI BERBAGAI MACAM GAYA VISUAL BUAT SAYA, BARU 4 BULAN ITU BUKAN HALANGAN, TAPI JUSTRU AWAL DARI PERJALANAN KREATIF YANG SERU. SAYA SELALU TERBUKA BUAT BELAJAR HAL BARU, DAPET FEEDBACK, ATAU DIAJAK KOLABORASI BARENG.',
+    'Hi, I’m a UI/UX Designer who loves turning ideas into meaningful digital experiences. I focus on clean interfaces, intuitive user journeys, and designs that balance aesthetics with usability. I’m always exploring new ways to make digital products simpler, smarter, and more enjoyable.',
 };
 
 export const projects = [
@@ -68,15 +68,15 @@ export const process = [
 ];
 
 export const education = [
-  { title: 'B.Sc. in Visual Communication Design', sub: 'Binus University', yr: '2018 – 2022' },
-  { title: 'UI/UX Design Certification', sub: 'Google Career Certificates', yr: '2023' },
+  { title: 'B.E COMPUTER SCIENCE ENGINEERING', sub: 'PET ENGINEERING COLLEGE', yr: ' 2024 – 2027' },
+  { title: 'UI/UX Design Certification', sub: 'Google Career Certificates', yr: '2025' },
 ];
 
 export const contact = {
-  email: 'fatih@example.com',
-  site: 'https://www.vengadesh.com',
-  phone: '+62 812 3456 7890',
-  location: 'Jakarta, Indonesia',
+  email: 'venkadash@example.com',
+  site: 'https://www.venKadesh.com',
+  phone: '+91 9876543210',
+  location: 'TIRUNELVALI, INDIA',
   socials: [
     { label: 'IG', href: 'https://instagram.com/', aria: 'Instagram' },
     { label: 'BE', href: 'https://behance.net/', aria: 'Behance' },
