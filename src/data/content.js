@@ -3,7 +3,7 @@
 
 export const hero = {
   // glitch-light text (apostrophe is literal here)
-  name: "HELLO, I'M VenKadash",
+  name: "HELLO, I'M VenKatash",
   bio:
     'Hi, I’m a UI/UX Designer who loves turning ideas into meaningful digital experiences. I focus on clean interfaces, intuitive user journeys, and designs that balance aesthetics with usability. I’m always exploring new ways to make digital products simpler, smarter, and more enjoyable.',
 };
@@ -73,7 +73,7 @@ export const education = [
 ];
 
 export const contact = {
-  email: 'venkadash@example.com',
+  email: 'venkatash@example.com',
   site: 'https://www.venKadesh.com',
   phone: '+91 9876543210',
   location: 'TIRUNELVALI, INDIA',
